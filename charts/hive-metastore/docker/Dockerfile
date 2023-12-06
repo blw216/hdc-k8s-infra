@@ -2,8 +2,8 @@ FROM openjdk:8-slim
 
 ARG HADOOP_VERSION=3.2.0
 
-RUN apt-get update && 
-    apt-get install -y curl --no-install-recommends && 
+RUN apt-get update && \
+    apt-get install -y curl --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and extract the Hadoop binary package.
@@ -12,7 +12,7 @@ RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hado
 	&& ln -s /opt/hadoop-$HADOOP_VERSION /opt/hadoop \
 	&& rm -r /opt/hadoop/share/doc 
 
-# Add S3a jars to the classpath using this hack.
+# Add S3a jars to the classpath
 RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
     ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
 
