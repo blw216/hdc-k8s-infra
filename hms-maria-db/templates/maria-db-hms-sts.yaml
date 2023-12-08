@@ -35,7 +35,7 @@ spec:
       name: mariadb-for-hive
     spec:
       storageClassName: {{ .Values.pvcSpec.storageClassName }}
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: [ {{ .Values.pvcSpec.accessModes | quote }} ]
       resources:
         requests:
-          storage: 20Gi
+          storage: {{ .Values.pvcSpec.storage }}
