@@ -1,37 +1,51 @@
 apiVersion: apps/v1
-# Deployments are used to declaratively manage the deployment of replicas of a Pod.
+# Deployments are used to declaratively manage the deployment of replicas of a Pod
 kind: Deployment
 metadata:
   # Sets the name of the Deployment
   name: maria-db-hms-deployment
 # Specifies the desired state of the Deployment
 spec:
+  # Defines how the Deployment identifies which Pods to manage
   selector:
+    # Specifies that the Deployment should manage Pods with the label "maria-db-hms"
     matchLabels:
       app: {{ .Values.hmsMariaDBService.selectorApp }}
   strategy:
+    # Strategy is to recreate all the Pods This means that the existing Pods 
+    # are terminated before new ones are created
     type: Recreate
+  # defines the Pod template for the Deployment.
   template:
+    # specifies the metadata for the Pods created by the Deployment.
     metadata:
+      # sets the label for the Pods to "app=maria-db-hms"
       labels:
         app: {{ .Values.hmsMariaDBService.selectorApp }}
+    # specifies the specification for the Pods
     spec:
       containers:
       - name: mariadb
+        # specifies the Docker image for the MariaDB container, using the latest version.
         image: {{ .Values.hmsMariaResources.image | quote }}
+        # Set environment variables for the container
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: mypass
+        # Expose the right ports for the MariaDB service (3306)
         ports:
         - containerPort: {{ .Values.hmsMariaDBService.targetPort }}
           name: mysql
         volumeMounts:
         - name: mariadb-for-hive
+          # the path in the container where the volume will be mounted.
           mountPath: /var/lib/mysql
+        # minimum amount of resources required
         resources:
           requests:
             memory: {{ .Values.hmsMariaResources.memory | quote }}
             cpu: {{ .Values.hmsMariaResources.cpu }}
+      # Specifies the volums available to the pod
       volumes:
       - name: mariadb-for-hive
         persistentVolumeClaim:
