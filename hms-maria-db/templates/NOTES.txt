@@ -1,0 +1,4 @@
+To access the MariaDB pod:
+
+1. $ microk8s kubectl exec -i -t maria-db-hms-deployment-75cbd47977-xspmz /bin/bash
+2. $ mariadb --user=root --password=mypass
