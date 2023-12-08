@@ -1,0 +1,22 @@
+# All hail ChatGPT for helping me understand this
+# k8s resource definition line-by-line.
+apiVersion: v1
+#  k8s Services are used to expose a stable, network endpoint to interact with a set of Pods.
+kind: Service
+metadata:
+  # Sets the name of the service
+  name: hive-metastore-db
+# The spec section specifies the desired state of the Service.
+spec:
+  # defines the ports on which the Service will listen.
+  ports:
+  # This is the port on which the Service will be accessible within the cluster.
+  - port: {{ .Values.hmsMariaDBService.port }}
+    # This is the port to which traffic will be forwarded to the Pods selected by this Service. 
+    # Any traffic received on port 13306 on this Service will be forwarded to port 3306 on the selected Pods.
+    targetPort: {{ .Values.hmsMariaDBService.targetPort }}
+  # Defines how the Service selects which Pods to route traffic to.
+  selector:
+    # This selector specifies that the Service should route traffic to Pods that have a label with key "app" and value "mysql." 
+    # This means that only Pods labeled with "app=mysql" will be included in the pool of endpoints for this Service.
+    app: {{ .Values.hmsMariaDBService.selectorApp }}

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+# Deployments are used to declaratively manage the deployment of replicas of a Pod.
+kind: Deployment
+metadata:
+  # Sets the name of the Deployment
+  name: maria-db-hms-deployment
+# Specifies the desired state of the Deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.hmsMariaDBService.selectorApp }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hmsMariaDBService.selectorApp }}
+    spec:
+      containers:
+      - name: mariadb
+        image: {{ .Values.hmsMariaResources.image | quote }}
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mypass
+        ports:
+        - containerPort: {{ .Values.hmsMariaDBService.targetPort }}
+          name: mysql
+        volumeMounts:
+        - name: mariadb-for-hive
+          mountPath: /var/lib/mysql
+        resources:
+          requests:
+            memory: {{ .Values.hmsMariaResources.memory | quote }}
+            cpu: {{ .Values.hmsMariaResources.cpu }}
+      volumes:
+      - name: mariadb-for-hive
+        persistentVolumeClaim:
+          claimName: {{ .Values.pvcSpec.name }}
