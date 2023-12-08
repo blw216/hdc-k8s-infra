@@ -2,12 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-pvcSpec:
-  name: maria-pv-claim
-  storageClassName: ssd-micron0
-  accessModes: ReadWriteOnce
-  storage: 20Gi
-
 hmsMariaDBService:
   serviceName: hive-metastore-db
   port: 13306
