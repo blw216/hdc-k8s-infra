@@ -9,6 +9,7 @@ pvcSpec:
   storage: 20Gi
 
 hmsMariaDBService:
+  serviceName: hive-metastore-db
   port: 13306
   targetPort: 3306
   selectorApp: maria-db-hms

@@ -3,7 +3,9 @@ kind: StatefulSet
 metadata:
   name: maria-db-hms-statefulset
 spec:
-  serviceName: "maria-db-hms-service"
+  # This specifies the name of the headless service associated with the StatefulSet. 
+  # Headless services are used to control the domain of the network identity of the Pods in the StatefulSet.
+  serviceName: {{ .Values.hmsMariaDBService.serviceName | quote }}
   selector:
     matchLabels:
       app: {{ .Values.hmsMariaDBService.selectorApp }}
@@ -19,15 +21,15 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           value: mypass
         ports:
-        - containerPort: 3306
+        - containerPort: {{ .Values.hmsMariaDBService.targetPort }}
           name: mysql
         volumeMounts:
         - name: mariadb-for-hive
           mountPath: /var/lib/mysql
         resources:
           requests:
-            memory: "8G"
-            cpu: 2
+            memory: {{ .Values.hmsMariaResources.memory | quote }}
+            cpu: {{ .Values.hmsMariaResources.cpu }}
   volumeClaimTemplates:
   - metadata:
       name: mariadb-for-hive
