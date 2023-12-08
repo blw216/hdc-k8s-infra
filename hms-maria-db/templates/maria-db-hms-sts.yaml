@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maria-db-hms-statefulset
+spec:
+  serviceName: "maria-db-hms-service"
+  selector:
+    matchLabels:
+      app: {{ .Values.hmsMariaDBService.selectorApp }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hmsMariaDBService.selectorApp }}
+    spec:
+      containers:
+      - name: mariadb
+        image: "mariadb:latest"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mypass
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mariadb-for-hive
+          mountPath: /var/lib/mysql
+        resources:
+          requests:
+            memory: "8G"
+            cpu: 2
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-for-hive
+    spec:
+      storageClassName: {{ .Values.pvcSpec.storageClassName }}
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi
