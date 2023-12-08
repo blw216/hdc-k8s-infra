@@ -4,7 +4,7 @@
 
 pvcSpec:
   name: maria-pv-claim
-  storageClassName: pure-block
+  storageClassName: ssd-micron0
   accessModes: ReadWriteOnce
   storage: 20Gi
 

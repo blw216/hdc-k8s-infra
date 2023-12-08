@@ -1,0 +1,13 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: ssd-micron0
+provisioner: microk8s.io/hostpath
+reclaimPolicy: Retain
+parameters:
+  pvDir: /micron0
+volumeBindingMode: WaitForFirstConsumer
+
+# Only need to run these once
+# microk8s kubectl apply -f ssd-micron-hostpath-sc.yaml
+# microk8s kubectl get storageclass ssd-micron0
