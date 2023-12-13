@@ -5,3 +5,9 @@ rbac:
 
 spark:
   image: 127.0.0.1:32000/apache-spark-3.4
+
+pvcSpec:
+  name: spark-thrift-pv-claim
+  storageClassName: ssd-micron0
+  accessModes: ReadWriteMany
+  storage: 20Gi

@@ -13,9 +13,10 @@ spec:
       name: spark-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: ssd-micron0
       resources:
         requests:
-          storage: 50Gi
+          storage: 20Gi
   template:
     metadata:
       labels:
@@ -26,10 +27,9 @@ spec:
         - name: thrift-server
           image: {{ .Values.spark.image }}
           volumeMounts:
-            - name: data-volume
-              mountPath: /app/data
             - name: spark-data
               mountPath: /opt/spark/work-dir
+              readOnly: false
           command:
             - 'bash'
             - '-c'
@@ -39,11 +39,11 @@ spec:
               --hiveconf hive.server2.thrift.port=10000
               --hiveconf hive.server2.thrift.bind.port=0.0.0.0
               --conf spark.dynamicAllocation.enabled=true
-              --conf spark.kubernetes.container.image=apache/spark:v3.4.0
+              --conf spark.kubernetes.container.image={{ .Values.spark.image }}
               --conf spark.kubernetes.driver.pod.name=spark-thrift-server-0
               --conf spark.kubernetes.driver.ownPersistentVolumeClaim=true
               --conf spark.kubernetes.driver.reusePersistentVolumeClaim=true
-              --conf spark.kubernetes.executor.request.cores="4"
+              --conf spark.kubernetes.executor.request.cores=4
               --conf spark.kubernetes.executor.request.memory="8g"
               --conf spark.kubernetes.namespace={{ .Values.rbac.namespace }}
               --conf spark.driver.host=spark-thrift-service

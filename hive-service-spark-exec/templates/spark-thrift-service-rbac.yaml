@@ -1,7 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: {{ .Values.rbac.namespace }}
   name: {{ .Values.rbac.roleName }}
 rules:
 - apiGroups: [""]
@@ -11,7 +10,6 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: {{ .Values.rbac.namespace }}
   name: {{ .Values.rbac.saName }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
