@@ -1,9 +1,13 @@
 <configuration>
 <property>
+	<!-- https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+3.0+Administration -->
+	<!-- This config is for running the Metastore w/out Hive -->
 	<name>metastore.task.threads.always</name>
 	<value>org.apache.hadoop.hive.metastore.events.EventCleanerTask</value>
 </property>
 <property>
+	<!-- https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+3.0+Administration -->
+	<!-- This config is for running the Metastore w/out Hive -->
 	<name>metastore.expression.proxy</name>
 	<value>org.apache.hadoop.hive.metastore.DefaultPartitionExpressionProxy</value>
 </property>
