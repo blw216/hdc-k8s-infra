@@ -6,3 +6,6 @@ hiveSparkExec:
     name: hive-spark-exec-role
   roleBind:
     name: spark-rolebinding
+  pvc:
+    storageClass:
+      name: ssd-micron0
