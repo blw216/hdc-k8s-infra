@@ -2,7 +2,7 @@ hiveMetastoreService:
   name: hive-metastore-svc
   targetPort: 30983
   port: 9083
-  selectorApp: hive-metastore
+  app: hive-metastore
 
 hiveMetastoreSTS:
   image: 127.0.0.1:32000/hms-standalone
