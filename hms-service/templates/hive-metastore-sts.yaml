@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-metastore-statefulset
+spec:
+  # This specifies the name of the headless service associated with the StatefulSet. 
+  # Headless services are used to control the domain of the network identity of the Pods in the StatefulSet.
+  serviceName: {{ .Values.hiveMetastoreService.name | quote }}
+  selector:
+    matchLabels:
+      app: {{ .Values.hiveMetastoreService.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hiveMetastoreService.app }}
+    spec:
+      containers:
+      - name: {{ .Values.hiveMetastoreService.app }}
+        image: {{ .Values.hiveMetastoreSTS.image }}
+        ports:
+        - containerPort: {{ .Values.hiveMetastoreService.targetPort }}
+        # Maps the metastore-site.xml ConfigMap we made earlier to this location
+        volumeMounts:
+        - name: {{ .Values.configMapVol.volName }}
+          mountPath: /opt/hive-metastore/conf/metastore-site.xml
+          subPath: metastore-site.xml
+        command: ["/opt/hive-metastore/bin/start-metastore"]
+        args: ["-p", {{ .Values.hiveMetastoreService.port | quote }}]
+        resources:
+          requests:
+            memory: {{ .Values.hiveMetastoreSTS.resources.mem | quote }}
+            cpu: {{ .Values.hiveMetastoreSTS.resources.cpu }}
+        imagePullPolicy: Always
+        volumes:
+        - name: {{ .Values.configMapVol.volName }}
+          configMap:
+            name: {{ .Values.configMapVol.cfgName }}

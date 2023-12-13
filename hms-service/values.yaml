@@ -2,4 +2,14 @@ hiveMetastoreService:
   name: hive-metastore-svc
   targetPort: 30983
   port: 9083
-  selectorApp: 
+  selectorApp: hive-metastore
+
+hiveMetastoreSTS:
+  image: 127.0.0.1:32000/hms-standalone
+  resources:
+    cpu: 2
+    mem: 8G
+
+configMapVol:
+  volName: metastore-cfg-vol
+  cfgName: metastore-cfg
