@@ -35,3 +35,12 @@ spec:
         - name: {{ .Values.configMapVol.volName }}
           configMap:
             name: {{ .Values.configMapVol.cfgName }}
+  volumeClaimTemplates:
+  - metadata:
+      name: hive-metastore-claim
+    spec:
+      storageClassName: {{ .Values.pvcSpec.storageClassName }}
+      accessModes: [ {{ .Values.pvcSpec.accessModes | quote }} ]
+      resources:
+        requests:
+          storage: {{ .Values.pvcSpec.storage }}

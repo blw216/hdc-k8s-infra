@@ -13,3 +13,9 @@ hiveMetastoreSTS:
 configMapVol:
   volName: metastore-cfg-vol
   cfgName: metastore-cfg
+
+pvcSpec:
+  name: hms-pv-claim
+  storageClassName: ssd-micron0
+  accessModes: ReadWriteOnce
+  storage: 20Gi
