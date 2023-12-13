@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spark-thrift-server
+spec:
+  serviceName: spark-thrift-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-thrift-server
+  volumeClaimTemplates:
+  - metadata:
+      name: spark-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi
+  template:
+    metadata:
+      labels:
+        app: spark-thrift-server
+    spec:
+      serviceAccountName: {{ .Values.rbac.saName }}
+      containers:
+        - name: thrift-server
+          image: apache/spark:3.4.0
+          volumeMounts:
+            - name: data-volume
+              mountPath: /app/data
+            - name: spark-data
+              mountPath: /opt/spark/work-dir
+          command:
+            - 'bash'
+            - '-c'
+            - >-
+              cp /app/data/gcs-connector-hadoop3-2.2.16-shaded.jar /opt/spark/jars/ &&
+              /opt/spark/sbin/start-thriftserver.sh
+              --master k8s://https://kubernetes.default.svc.cluster.local:443
+              --hiveconf hive.server2.thrift.port=10000
+              --hiveconf hive.server2.thrift.bind.port=0.0.0.0
+              --conf spark.dynamicAllocation.enabled=true
+              --conf spark.kubernetes.container.image=apache/spark:v3.4.0
+              --conf spark.kubernetes.driver.pod.name=spark-thrift-server-0
+              --conf spark.kubernetes.driver.ownPersistentVolumeClaim=true
+              --conf spark.kubernetes.driver.reusePersistentVolumeClaim=true
+              --conf spark.kubernetes.executor.request.cores="4"
+              --conf spark.kubernetes.executor.request.memory="8g"
+              --conf spark.kubernetes.namespace={{ .Values.rbac.namespace }}
+              --conf spark.driver.host=spark-thrift-service
+              --conf spark.driver.bindAddress=spark-thrift-server-0
+              --conf spark.driver.port=7078

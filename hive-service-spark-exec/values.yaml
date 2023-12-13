@@ -1,11 +1,4 @@
-hiveSparkExec:
+rbac:
   namespace: default
-  serviceAccount:
-    name: hive-spark-exec-sa
-  role:
-    name: hive-spark-exec-role
-  roleBind:
-    name: spark-rolebinding
-  pvc:
-    storageClass:
-      name: ssd-micron0
+  roleName: spark-thrift-server-role
+  saName: spark-thrift-server-sa
