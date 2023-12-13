@@ -1,0 +1,4 @@
+To run the Hive Metastore Standalone service:
+
+1. Make sure microk8s is configured to allow insecure pushes to local registry
+2. $ cd hms-service/images && make build
