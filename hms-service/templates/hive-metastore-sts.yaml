@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.hiveMetastoreService.app }}
-        image: {{ .Values.hiveMetastoreSTS.image }}
+        image: {{ .Values.hiveMetastoreSTS.image | quote }}
         ports:
         - containerPort: {{ .Values.hiveMetastoreService.targetPort }}
         # Maps the metastore-site.xml ConfigMap we made earlier to this location
@@ -31,10 +31,10 @@ spec:
             memory: {{ .Values.hiveMetastoreSTS.resources.mem | quote }}
             cpu: {{ .Values.hiveMetastoreSTS.resources.cpu }}
         imagePullPolicy: Always
-        volumes:
-        - name: {{ .Values.configMapVol.volName }}
-          configMap:
-            name: {{ .Values.configMapVol.cfgName }}
+      volumes:
+      - name: {{ .Values.configMapVol.volName }}
+        configMap:
+          name: {{ .Values.configMapVol.cfgName }}
   volumeClaimTemplates:
   - metadata:
       name: hive-metastore-claim
