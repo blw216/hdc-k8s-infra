@@ -25,7 +25,7 @@ spec:
           mountPath: /opt/hive-metastore/conf/metastore-site.xml
           subPath: metastore-site.xml
         command: ["/opt/hive-metastore/bin/start-metastore"]
-        args: ["-p", {{ .Values.hiveMetastoreService.port | quote }}]
+        args: ["-p", {{ .Values.hiveMetastoreService.targetPort | quote }}]
         resources:
           requests:
             memory: {{ .Values.hiveMetastoreSTS.resources.mem | quote }}
