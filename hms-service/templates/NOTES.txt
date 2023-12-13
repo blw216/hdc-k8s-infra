@@ -1,4 +1,8 @@
 To run the Hive Metastore Standalone service:
 
 1. Make sure microk8s is configured to allow insecure pushes to local registry
-2. $ cd hms-service/images && make build
+2. Make sure the hms-maria-db STS is running on the cluster
+3. Make sure to run the hive-metastore-db-init job ONCE
+4. Build the Docker image and create the ConfigMap for hive-site.xml:
+    -  `$ cd hms-service/images && make build`
+5. Deploy this Helm chart to launch the Hive metastore standalone service

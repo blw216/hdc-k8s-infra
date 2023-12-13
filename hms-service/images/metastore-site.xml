@@ -17,7 +17,7 @@
 </property>
 <property>
 	<name>javax.jdo.option.ConnectionURL</name>
-	<value>jdbc:mysql://hive-metastore-db.default.svc.cluster.local:13306/metastore_db</value>
+	<value>jdbc:mysql://hive-metastore-db.default.svc.cluster.local:13306/metastore_db?createDatabaseIfNotExist=true&amp;useSSL=false</value>
 </property>
 <property>
 	<name>javax.jdo.option.ConnectionUserName</name>
