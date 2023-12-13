@@ -1,13 +1,14 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: default
-  name: hive-spark-exec-role
+  namespace: {{ .Values.hiveSparkExec.namespace }}
+  name: {{ .Values.hiveSparkExec.role.name }}
 rules:
   - apiGroups: [""]
     resources: ["pods"]
     verbs: ["get", "watch", "list", "create", "update", "patch", "delete"]
   - apiGroups:
+      # Refers to the core API group (since it's an empty string).
       - ""
     resources:
       - secrets

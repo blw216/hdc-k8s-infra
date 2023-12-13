@@ -1,0 +1,8 @@
+hiveSparkExec:
+  namespace: default
+  serviceAccount:
+    name: hive-spark-exec-sa
+  role:
+    name: hive-spark-exec-role
+  roleBind:
+    name: spark-rolebinding

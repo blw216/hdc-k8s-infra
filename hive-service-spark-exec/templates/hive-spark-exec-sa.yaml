@@ -6,5 +6,5 @@ kind: ServiceAccount
 # situations, including authenticating to the API server or implementing identity-based security policies.
 apiVersion: v1
 metadata:
-  namespace: default
-  name: hive-spark-exec
+  namespace: {{ .Values.hiveSparkExec.namespace }}
+  name: {{ .Values.hiveSparkExec.serviceAccount.name }}
