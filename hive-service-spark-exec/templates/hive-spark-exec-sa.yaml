@@ -1,0 +1,10 @@
+kind: ServiceAccount
+# A service account is a type of non-human account that, in Kubernetes, provides a 
+# distinct identity in a Kubernetes cluster. Application Pods, system components, and
+# entities inside and outside the cluster can use a specific ServiceAccount's 
+# credentials to identify as that ServiceAccount. This identity is useful in various 
+# situations, including authenticating to the API server or implementing identity-based security policies.
+apiVersion: v1
+metadata:
+  namespace: default
+  name: hive-spark-exec
