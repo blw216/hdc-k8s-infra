@@ -2,3 +2,6 @@ rbac:
   namespace: default
   roleName: spark-thrift-server-role
   saName: spark-thrift-server-sa
+
+spark:
+  image: 127.0.0.1:32000/apache-spark-3.4

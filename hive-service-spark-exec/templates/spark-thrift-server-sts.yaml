@@ -24,7 +24,7 @@ spec:
       serviceAccountName: {{ .Values.rbac.saName }}
       containers:
         - name: thrift-server
-          image: apache/spark:3.4.0
+          image: {{ .Values.spark.image }}
           volumeMounts:
             - name: data-volume
               mountPath: /app/data
@@ -34,7 +34,6 @@ spec:
             - 'bash'
             - '-c'
             - >-
-              cp /app/data/gcs-connector-hadoop3-2.2.16-shaded.jar /opt/spark/jars/ &&
               /opt/spark/sbin/start-thriftserver.sh
               --master k8s://https://kubernetes.default.svc.cluster.local:443
               --hiveconf hive.server2.thrift.port=10000
