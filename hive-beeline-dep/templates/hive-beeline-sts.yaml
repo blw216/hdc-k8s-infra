@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: beeline-statefulset
+spec:
+  serviceName: "beeline-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beeline
+  template:
+    metadata:
+      labels:
+        app: beeline
+    spec:
+      containers:
+      - name: beeline
+        image: 127.0.0.1:32000/beeline
+        command: ["sleep"]
+        args: ["infinity"]
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+          limits:
+            memory: "8Gi"
+            cpu: "4"

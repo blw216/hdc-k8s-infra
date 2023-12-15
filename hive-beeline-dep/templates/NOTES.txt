@@ -1,0 +1,7 @@
+1. Connect to the Beeline pod and run the Beeline exec
+
+$ microk8s kubectl exec -it  beeline-deployment-64764c5fd7-b2mrl beeline
+
+2. Connect Beeline to the Spark Thrift server
+
+$ !connect jdbc:hive2://spark-thrift-service:10000 
