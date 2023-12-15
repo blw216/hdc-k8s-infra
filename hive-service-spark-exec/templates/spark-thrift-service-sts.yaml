@@ -41,6 +41,9 @@ spec:
             - name: hive-warehouse
               mountPath: /user/hive/warehouse
               readOnly: false
+            - name: data-volume
+              mountPath: /data
+              readOnly: false
           command:
             - 'bash'
             - '-c'
@@ -57,8 +60,16 @@ spec:
               --conf spark.kubernetes.executor.request.cores=4
               --conf spark.kubernetes.executor.request.memory="8g"
               --conf spark.kubernetes.namespace={{ .Values.rbac.namespace }}
+              --conf spark.kubernetes.executor.volumes.hostPath.data-volume.mount.path=/data
+              --conf spark.kubernetes.executor.volumes.hostPath.data-volume.options.path=/data
+              --conf spark.kubernetes.executor.volumes.hostPath.data-volume.options.type=DirectoryOrCreate
               --conf spark.driver.host=spark-thrift-service
               --conf spark.driver.bindAddress=spark-thrift-server-0
               --conf spark.driver.port=7078
               --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-svc.default.svc.cluster.local:30983
               && tail -f /opt/spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-1-spark-thrift-server-0.out
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: "/data"
+          type: DirectoryOrCreate
