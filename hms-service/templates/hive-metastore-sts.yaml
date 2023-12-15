@@ -24,6 +24,10 @@ spec:
         - name: {{ .Values.configMapVol.volName }}
           mountPath: /opt/hive-metastore/conf/metastore-site.xml
           subPath: metastore-site.xml
+        # Try mounting warehouse vol
+        - name: data-volume
+          mountPath: /data
+          readOnly: false
         command: ["/opt/hive-metastore/bin/start-metastore"]
         args: ["-p", {{ .Values.hiveMetastoreService.targetPort | quote }}]
         resources:
@@ -35,6 +39,10 @@ spec:
       - name: {{ .Values.configMapVol.volName }}
         configMap:
           name: {{ .Values.configMapVol.cfgName }}
+      - name: data-volume
+        hostPath:
+          path: "/data"
+          type: DirectoryOrCreate
   volumeClaimTemplates:
   - metadata:
       name: hive-metastore-claim
