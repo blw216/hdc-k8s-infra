@@ -49,3 +49,5 @@ spec:
               --conf spark.driver.host=spark-thrift-service
               --conf spark.driver.bindAddress=spark-thrift-server-0
               --conf spark.driver.port=7078
+              --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-svc.default.svc.cluster.local:30983
+              && tail -f /opt/spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-1-spark-thrift-server-0.out
