@@ -12,7 +12,15 @@ spec:
   - metadata:
       name: spark-data
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: ssd-micron0
+      resources:
+        requests:
+          storage: 20Gi
+  - metadata:
+      name: hive-warehouse
+    spec:
+      accessModes: [ "ReadWriteMany" ]
       storageClassName: ssd-micron0
       resources:
         requests:
@@ -29,6 +37,9 @@ spec:
           volumeMounts:
             - name: spark-data
               mountPath: /opt/spark/work-dir
+              readOnly: false
+            - name: hive-warehouse
+              mountPath: /user/hive/warehouse
               readOnly: false
           command:
             - 'bash'

@@ -17,5 +17,5 @@ configMapVol:
 pvcSpec:
   name: hms-pv-claim
   storageClassName: ssd-micron0
-  accessModes: ReadWriteOnce
+  accessModes: ReadWriteMany
   storage: 20Gi
