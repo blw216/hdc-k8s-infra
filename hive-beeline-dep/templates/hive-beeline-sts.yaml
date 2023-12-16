@@ -16,6 +16,10 @@ spec:
       containers:
       - name: beeline
         image: 127.0.0.1:32000/beeline
+        volumeMounts:
+        - name: {{ .Values.configMapVol.volName }}
+          mountPath: /opt/hive/conf/hive-site.xml
+          subPath: hive-site.xml
         command: ["sleep"]
         args: ["infinity"]
         resources:
@@ -25,3 +29,7 @@ spec:
           limits:
             memory: "8Gi"
             cpu: "4"
+      volumes:
+      - name: {{ .Values.configMapVol.volName }}
+        configMap:
+          name: {{ .Values.configMapVol.cfgName }}

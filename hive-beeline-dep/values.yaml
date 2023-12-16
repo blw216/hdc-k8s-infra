@@ -4,6 +4,10 @@
 
 replicaCount: 1
 
+configMapVol:
+  volName: hive-site-cfg-vol
+  cfgName: hive-site-cfg
+
 image:
   repository: nginx
   pullPolicy: IfNotPresent

@@ -1,0 +1,52 @@
+apiVersion: v1
+data:
+  hive-site.xml: |
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+        <!-- Hive Metastore URI -->
+        <property>
+            <name>hive.metastore.uris</name>
+            <value>thrift://hive-metastore-svc.default.svc.cluster.local:30983</value>
+            <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
+        </property>
+
+        <!-- JDBC URL to the Metastore database -->
+        <property>
+            <name>javax.jdo.option.ConnectionURL</name>
+            <value>jdbc:mysql://hive-metastore-db.default.svc.cluster.local:13306/metastore_db?createDatabaseIfNotExist=true&amp;useSSL=false</value>
+            <description>JDBC connect string for a JDBC metastore</description>
+        </property>
+
+        <!-- JDBC Driver class name -->
+        <property>
+            <name>javax.jdo.option.ConnectionDriverName</name>
+            <value>com.mysql.jdbc.Driver</value>
+            <description>Driver class name for a JDBC metastore</description>
+        </property>
+
+        <!-- Username for the JDBC connection -->
+        <property>
+            <name>javax.jdo.option.ConnectionUserName</name>
+            <value>root</value>
+            <description>username to use against metastore database</description>
+        </property>
+
+        <!-- Password for the JDBC connection -->
+        <property>
+            <name>javax.jdo.option.ConnectionPassword</name>
+            <value>mypass</value>
+            <description>password to use against metastore database</description>
+        </property>
+
+        <!-- Hive data warehouse location -->
+        <property>
+            <name>hive.metastore.warehouse.dir</name>
+            <value>/data</value>
+            <description>location of default database for the warehouse</description>
+        </property>
+    </configuration>
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: hive-site-cfg
